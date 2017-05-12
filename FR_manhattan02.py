@@ -8,13 +8,12 @@ import re
 import string
 
 #open file
-#textfile=open(sys.argv[1], 'r')
 #textfile = open("/home/ruge/Documents/ALGO/NeedlemannWunsch/rm15_11", 'r')
-textfile = open("./rm15_11", 'r')
-
+textfile = open("./rdm50/rmd50_11", 'r')
 #read file into lists
 gright=[]
 gdown=[]
+gdiag=[]
 switch="down"
 for line in textfile:
     if line.startswith(' ') and switch == "down":
@@ -25,6 +24,11 @@ for line in textfile:
     if line.startswith(" ") and switch == "right":
         gright.append(line.split())
 
+    if line.startswith("---")and switch == "down":
+        switch="diag"
+
+    if line.startswith(" ") and switch == "diag":
+        gright.append(line.split())
 print("gdown")
 for line in gdown:
 	print(line)
@@ -32,6 +36,10 @@ for line in gdown:
 print("#################################################################")
 print("gright")
 for line in gright:
+	print(line)
+
+print("gdiag")
+for line in gdiag:
 	print(line)
 
 #initialize matrix
