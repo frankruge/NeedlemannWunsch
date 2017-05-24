@@ -2,9 +2,6 @@
 import sys
 import os
 import csv
-#import matplotlib.pyplot as plt
-from datetime import datetime
-import re
 import string
 
 #open file
@@ -14,21 +11,35 @@ textfile = open("./rdm50/rmd50_11", 'r')
 gright=[]
 gdown=[]
 gdiag=[]
-switch="down"
+switch = "down"
+
+#for line in textfile:
+#    if line.startswith('G'):
+#        print(line)
+
+
+
 for line in textfile:
-    if line.startswith(' ') and switch == "down":
-        gdown.append(line.split())
+    if line.startswith('  ') and switch == "down":
+        gdown.append(line.strip().split())
+        #print(switch)
     if line.startswith("---")and switch == "down":
-        switch="right"
+        switch = "right"
+        continue
+        #print(switch)
+    if line.startswith('  ') and switch == "right":
+        gright.append(line.strip().split())
+        #print(switch)
+    if line.startswith("---")and switch == "right":
+        switch = "diag"
+        continue
+        #print(switch)
+    if line.startswith('  ') and switch == "diag":
+        gdiag.append(line.strip().split())
+        #print(switch)
+    if line.startswith('G'):
+        continue
 
-    if line.startswith(" ") and switch == "right":
-        gright.append(line.split())
-
-    if line.startswith("---")and switch == "down":
-        switch="diag"
-
-    if line.startswith(" ") and switch == "diag":
-        gright.append(line.split())
 print("gdown")
 for line in gdown:
 	print(line)
@@ -37,11 +48,25 @@ print("#################################################################")
 print("gright")
 for line in gright:
 	print(line)
-
+print("#################################################################")
 print("gdiag")
 for line in gdiag:
 	print(line)
 
+
+def manhattan_tourist(down, right, diag):
+    #matrix
+    m_down=[][]
+    for i in range(len(down)):
+        for j in range(len(down[i])):
+            #print(down[i][j])
+            m_down[i][j] = float(down[i][j])
+    return m_down
+
+a=manhattan_tourist(down=gdown, right=gright, diag=gdiag)
+print(a)
+
+'''
 #initialize matrix
 mati=[[0] * (len(gdown)+1) for x in range(len(gright))]
 print("Length of matrix "+str(len(gdown)+1)+" * "+str(len(gright)))
@@ -96,3 +121,4 @@ for i in range(len(mati)):
 textfile.close()
 
 print("GUGU")
+'''
